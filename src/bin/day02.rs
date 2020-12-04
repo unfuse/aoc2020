@@ -14,14 +14,11 @@ fn main() {
             let target: char = captures[3].parse::<char>().unwrap();
             let password: &str = &captures[4];
 
-            // println!("{}-{} {}: {}", lower, upper, target, password);
-
+            // Part 2
             let check1 = password.chars().nth(&lower-1).unwrap() == target;
             let check2 = password.chars().nth(&upper-1).unwrap() == target;
 
-            // println!("{} {} -> {} {} -> {} {}", password, target, lower-1, upper-1, check1, check2);
-
-            if (check1 || check2) && (check1 != check2) {
+            if check1 ^ check2 {
                 total += 1;
             }
 
