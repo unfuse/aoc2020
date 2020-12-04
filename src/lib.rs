@@ -25,11 +25,11 @@ pub mod data {
             Data { width, height, data }
         }
 
-        pub fn get(&self, x: &usize, y: &usize) -> char {
-            *(self.data.get(&(*x, *y)).unwrap())
+        pub fn get(&self, x: usize, y: usize) -> char {
+            *(self.data.get(&(x, y)).unwrap())
         }
 
-        pub fn is(&self, x: &usize, y: &usize, target: char) -> bool {
+        pub fn is(&self, x: usize, y: usize, target: char) -> bool {
             self.get(x, y) == target
         }
 

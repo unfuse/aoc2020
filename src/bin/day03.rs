@@ -30,7 +30,7 @@ fn test_slope(del_x: usize, del_y: usize, data: &Data) -> usize {
             break count;
         }
 
-        if data.is(&x, &y, '#') {
+        if data.is(x, y, '#') {
             count += 1
         }
     }
