@@ -23,13 +23,13 @@ fn main() {
         'u', 'v', 'w', 'x', 'y',
         'z',
     ];
-    let ascii_lower_set: HashSet<char> = ascii_lower.iter().map(|c| *c).collect();
+    let ascii_lower_set: HashSet<char> = ascii_lower.iter().copied().collect();
 
     // Part 2
     let total2: usize = input.split("\n\n")
         .map(|group| group.lines()
             .map(|line| line.chars().collect::<HashSet<char>>())
-            .fold(ascii_lower_set.clone(), |acc, x| acc.intersection(&x).map(|c| *c).collect())
+            .fold(ascii_lower_set.clone(), |acc, x| acc.intersection(&x).copied().collect())
         )
         .map(|set| set.len())
         .sum();

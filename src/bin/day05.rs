@@ -13,7 +13,7 @@ fn main() {
         .map(|l| get_seat_checksum(l))
         .collect::<Vec<usize>>();
 
-    all_seats.sort();
+    all_seats.sort_unstable();
 
     let mut last: usize = all_seats[0];
     let mut my_seat: usize = 0;

@@ -65,7 +65,7 @@ fn find_containers_of_value(map: &HashMap<String, Vec<BagRule>>, value: &str) ->
         }
     }
 
-    return answers;
+    answers
 }
 
 fn calculate_qty_bags_contained(map: &HashMap<String, Vec<BagRule>>, value: &str) -> usize {
