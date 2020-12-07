@@ -5,7 +5,7 @@ pub mod data {
     pub struct Data {
         width: usize,
         height: usize,
-        data: HashMap<(usize, usize), char>
+        data: HashMap<(usize, usize), char>,
     }
 
     impl Data {
@@ -22,7 +22,11 @@ pub mod data {
                 height += 1;
             }
 
-            Data { width, height, data }
+            Data {
+                width,
+                height,
+                data,
+            }
         }
 
         pub fn get(&self, x: usize, y: usize) -> char {

@@ -9,10 +9,9 @@ fn main() {
 
     let mut total = 0;
     for (i, num1) in items.iter().enumerate() {
-        for (j, num2) in items.iter().skip(i+1).enumerate() {
-
+        for (j, num2) in items.iter().skip(i + 1).enumerate() {
             // Part 2
-            for num3 in items.iter().skip(j+1) {
+            for num3 in items.iter().skip(j + 1) {
                 if num1 + num2 + num3 == 2020 {
                     total = num1 * num2 * num3;
                 }

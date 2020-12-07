@@ -1,5 +1,5 @@
-use std::fs;
 use aoc2020::data::Data;
+use std::fs;
 
 fn main() {
     let input: String = fs::read_to_string("src/bin/input03.txt").expect("Could not read file");

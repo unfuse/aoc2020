@@ -1,5 +1,5 @@
-use std::fs;
 use regex::Regex;
+use std::fs;
 
 fn main() {
     let input: String = fs::read_to_string("src/bin/input02.txt").expect("Could not read file");
@@ -15,8 +15,8 @@ fn main() {
             let password: &str = &captures[4];
 
             // Part 2
-            let check1 = password.chars().nth(&lower-1).unwrap() == target;
-            let check2 = password.chars().nth(&upper-1).unwrap() == target;
+            let check1 = password.chars().nth(&lower - 1).unwrap() == target;
+            let check2 = password.chars().nth(&upper - 1).unwrap() == target;
 
             if check1 ^ check2 {
                 total += 1;

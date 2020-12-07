@@ -1,6 +1,6 @@
-use std::fs;
 use regex::Regex;
 use std::collections::HashMap;
+use std::fs;
 
 fn main() {
     let input: String = fs::read_to_string("src/bin/input04.txt").expect("Could not read file");
@@ -20,11 +20,17 @@ fn main() {
         passports.push(map);
     }
 
-    total = passports.iter()
+    total = passports
+        .iter()
         .filter(|x| x.keys().count() >= 7)
         .filter(|x| {
-            check_byr(x) && check_ecl(x) && check_eyr(x) && check_hcl(x) &&
-                check_hgt(x) && check_iyr(x) && check_pid(x)
+            check_byr(x)
+                && check_ecl(x)
+                && check_eyr(x)
+                && check_hcl(x)
+                && check_hgt(x)
+                && check_iyr(x)
+                && check_pid(x)
         })
         .count();
 
@@ -52,19 +58,22 @@ fn check_hgt(map: &HashMap<String, String>) -> bool {
     check_map_val(map, "hgt", |val| {
         if val.contains("in") {
             val_in_range(&val.replace("in", ""), 59, 76)
-        }
-        else {
+        } else {
             val_in_range(&val.replace("cm", ""), 150, 193)
         }
     })
 }
 
 fn check_hcl(map: &HashMap<String, String>) -> bool {
-    check_map_val(map, "hcl", |val| Regex::new("^#[\\da-f]{6}$").unwrap().is_match(val))
+    check_map_val(map, "hcl", |val| {
+        Regex::new("^#[\\da-f]{6}$").unwrap().is_match(val)
+    })
 }
 
 fn check_ecl(map: &HashMap<String, String>) -> bool {
-    check_map_val(map, "ecl", |val| ["amb", "blu", "brn", "gry", "grn", "hzl", "oth"].contains(&val))
+    check_map_val(map, "ecl", |val| {
+        ["amb", "blu", "brn", "gry", "grn", "hzl", "oth"].contains(&val)
+    })
 }
 
 fn check_pid(map: &HashMap<String, String>) -> bool {

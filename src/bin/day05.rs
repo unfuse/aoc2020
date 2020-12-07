@@ -2,14 +2,12 @@ use std::fs;
 
 fn main() {
     let input: String = fs::read_to_string("src/bin/input05.txt").expect("Could not read file");
-    let max_seat = input.lines()
-        .map(|l| get_seat_checksum(l))
-        .max()
-        .unwrap();
+    let max_seat = input.lines().map(|l| get_seat_checksum(l)).max().unwrap();
 
     println!("{}", max_seat);
 
-    let mut all_seats: Vec<usize> = input.lines()
+    let mut all_seats: Vec<usize> = input
+        .lines()
         .map(|l| get_seat_checksum(l))
         .collect::<Vec<usize>>();
 
@@ -23,11 +21,10 @@ fn main() {
         if last != seat - 1 {
             my_seat = seat - 1;
             break;
-        }
-        else {
+        } else {
             last = *seat;
         }
-    };
+    }
 
     println!("my seat {}", my_seat)
 }
@@ -41,8 +38,7 @@ fn get_seat_checksum(pass: &str) -> usize {
     for r in row_part.chars() {
         if r == 'B' {
             row_min += ((row_max - row_min) + 1) / 2
-        }
-        else {
+        } else {
             row_max -= ((row_max - row_min) + 1) / 2
         }
     }
@@ -53,8 +49,7 @@ fn get_seat_checksum(pass: &str) -> usize {
     for c in col_part.chars() {
         if c == 'R' {
             col_min += ((col_max - col_min) + 1) / 2
-        }
-        else {
+        } else {
             col_max -= ((col_max - col_min) + 1) / 2
         }
     }

@@ -1,11 +1,11 @@
-use std::fs;
 use regex::Regex;
 use std::collections::HashMap;
 use std::collections::HashSet;
+use std::fs;
 
 struct BagRule {
     qty: usize,
-    bag: String
+    bag: String,
 }
 
 fn main() {
@@ -25,7 +25,7 @@ fn main() {
             for captures in val_splitter.captures_iter(val) {
                 let qty: usize = captures[1].parse::<usize>().unwrap();
                 let bag: String = captures[2].to_string();
-                values.push(BagRule{qty, bag});
+                values.push(BagRule { qty, bag });
             }
         }
         map.insert(key.to_string(), values);
@@ -33,10 +33,10 @@ fn main() {
 
     // Part 1
     let part1 = find_containers_of_value(&map, &my_bag);
-    println!("{} => {:?}",  part1.len(), part1);
+    println!("{} => {:?}", part1.len(), part1);
 
     // Part 2
-    println!("{}", calculate_qty_bags_contained(&map,  &my_bag));
+    println!("{}", calculate_qty_bags_contained(&map, &my_bag));
 }
 
 fn find_containers_of_value(map: &HashMap<String, Vec<BagRule>>, value: &str) -> HashSet<String> {
@@ -59,8 +59,7 @@ fn find_containers_of_value(map: &HashMap<String, Vec<BagRule>>, value: &str) ->
 
         if next_workings.is_empty() {
             break;
-        }
-        else {
+        } else {
             workings = next_workings;
         }
     }
@@ -69,7 +68,9 @@ fn find_containers_of_value(map: &HashMap<String, Vec<BagRule>>, value: &str) ->
 }
 
 fn calculate_qty_bags_contained(map: &HashMap<String, Vec<BagRule>>, value: &str) -> usize {
-    map.get(value).unwrap().iter()
+    map.get(value)
+        .unwrap()
+        .iter()
         .map(|bag_rule| bag_rule.qty * (1 + calculate_qty_bags_contained(map, &bag_rule.bag)))
         .sum()
 }
