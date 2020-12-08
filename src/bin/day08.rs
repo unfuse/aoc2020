@@ -28,9 +28,7 @@ fn main() {
             _ => continue,
         }
 
-        let (term, acc) = run_code(&inst_copy);
-
-        if term {
+        if let (true, acc) = run_code(&inst_copy) {
             println!("acc: {} => termed swapping instruction {}", acc, i);
             break;
         }
