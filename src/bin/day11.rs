@@ -20,6 +20,7 @@ fn main() {
     println!("num filled after {} iter: {}", count, num_filled);
 }
 
+#[allow(dead_code)]
 fn iterate_adj(grid: &Data) -> Data {
     let mut next: Data = grid.clone();
 
@@ -73,14 +74,17 @@ fn num_matching(grid: &Data, target: char) -> usize {
 
 // For part 2, if a seat is floor it should progress until it reaches a seat or the end of the map
 
+#[allow(dead_code)]
 fn should_fill_adj(grid: &Data, x: usize, y: usize) -> bool {
     grid.is(x, y, 'L') && count_adjacent_matching(grid, x, y, '#') == 0
 }
 
+#[allow(dead_code)]
 fn should_empty_adj(grid: &Data, x: usize, y: usize) -> bool {
     grid.is(x, y, '#') && count_adjacent_matching(grid, x, y, '#') >= 4
 }
 
+#[allow(dead_code)]
 fn count_adjacent_matching(grid: &Data, x: usize, y: usize, target: char) -> usize {
     let mut count: usize = 0;
 

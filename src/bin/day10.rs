@@ -6,7 +6,7 @@ fn main() {
     // key - allow tribonacci to remove the very first adapter if others in the sequence could plug directly
     // all other sets cannot remove their first adapter
     nums.push(0);
-    nums.sort();
+    nums.sort_unstable();
 
     // println!("{:?}", nums);
 
@@ -32,14 +32,15 @@ fn main() {
     }
 
     // Push last group
-    groups.push(cur_group.clone());
+    groups.push(cur_group);
 
-    let part1 = groups.len() * groups.iter().map(|x| x.len() - 1).fold(0, |x,y| x + y);
+    let part1_sum: usize = groups.iter().map(|x| x.len() - 1).sum();
+    let part1: usize = groups.len() * part1_sum;
     println!("part1: {}", part1);
 
-    let perms = groups.iter()
+    let perms: usize = groups.iter()
         .map(|x| tribonacci(x.len()))
-        .fold(1, |x,y| x * y);
+        .product();
 
     println!("part2: {}", perms);
 }
