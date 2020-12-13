@@ -10,7 +10,7 @@ fn main() {
     let mut way_x = 10;
     let mut way_y = 1;
 
-    for inst  in instructions {
+    for inst in instructions {
         let code: char = *inst[..1].chars().collect::<Vec<char>>().get(0).unwrap();
         let num: usize = inst[1..].parse().unwrap();
 
@@ -19,17 +19,17 @@ fn main() {
                 let (new_x, new_y) = adjust_by_dir(way_x, way_y, code, num);
                 way_x = new_x;
                 way_y = new_y;
-            },
+            }
             'R' | 'L' => {
                 let (new_x, new_y) = rotate(way_x, way_y, code, num);
                 way_x = new_x;
                 way_y = new_y;
-            },
+            }
             'F' => {
                 let (new_x, new_y) = adjust(ship_x, ship_y, way_x, way_y, num);
                 ship_x = new_x;
                 ship_y = new_y;
-            },
+            }
             _ => panic!(),
         }
     }
@@ -38,7 +38,10 @@ fn main() {
 }
 
 fn adjust(cur_x: isize, cur_y: isize, mag_x: isize, mag_y: isize, num: usize) -> (isize, isize) {
-    (cur_x + (mag_x * num as isize), cur_y + (mag_y * num as isize))
+    (
+        cur_x + (mag_x * num as isize),
+        cur_y + (mag_y * num as isize),
+    )
 }
 
 fn rotate(cur_x: isize, cur_y: isize, rot: char, num: usize) -> (isize, isize) {
@@ -72,14 +75,18 @@ fn adjust_by_dir(x: isize, y: isize, dir: char, num: usize) -> (isize, isize) {
 
 // Was used by part 1, and I thought it was clever
 fn _rotate_old(dir: char, rot: char, num: usize) -> char {
-    let idx: usize  = num / 90;
+    let idx: usize = num / 90;
     let dirs_l = ['N', 'W', 'S', 'E'];
     let dirs_r = ['N', 'E', 'S', 'W'];
     dirs_l.iter().position(|&x| x == dir).unwrap();
 
     match rot {
-        'L' => dirs_l[(dirs_l.iter().position(|&x| x == dir).unwrap() + idx) as usize % dirs_l.len()],
-        'R' => dirs_r[(dirs_r.iter().position(|&x| x == dir).unwrap() + idx) as usize % dirs_r.len()],
+        'L' => {
+            dirs_l[(dirs_l.iter().position(|&x| x == dir).unwrap() + idx) as usize % dirs_l.len()]
+        }
+        'R' => {
+            dirs_r[(dirs_r.iter().position(|&x| x == dir).unwrap() + idx) as usize % dirs_r.len()]
+        }
         _ => panic!(),
     }
 }

@@ -2,7 +2,10 @@ use std::fs;
 
 fn main() {
     let mut nums: Vec<usize> = fs::read_to_string("src/bin/input10.txt")
-        .unwrap().lines().map(|x| x.parse().unwrap()).collect();
+        .unwrap()
+        .lines()
+        .map(|x| x.parse().unwrap())
+        .collect();
     // key - allow tribonacci to remove the very first adapter if others in the sequence could plug directly
     // all other sets cannot remove their first adapter
     nums.push(0);
@@ -23,7 +26,7 @@ fn main() {
             3 => {
                 groups.push(cur_group.clone());
                 cur_group.clear();
-            },
+            }
             // Bold assumption - no adapter is diff 2
             _ => panic!("diff is not supported"),
         }
@@ -38,9 +41,7 @@ fn main() {
     let part1: usize = groups.len() * part1_sum;
     println!("part1: {}", part1);
 
-    let perms: usize = groups.iter()
-        .map(|x| tribonacci(x.len()))
-        .product();
+    let perms: usize = groups.iter().map(|x| tribonacci(x.len())).product();
 
     println!("part2: {}", perms);
 }

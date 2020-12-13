@@ -1,5 +1,5 @@
-use std::fs;
 use aoc2020::data::Data;
+use std::fs;
 
 fn main() {
     let mut old: Data = Data::new(&fs::read_to_string("src/bin/input11.txt").unwrap());
@@ -10,7 +10,7 @@ fn main() {
         // let next: Data = iterate_adj(&old);
         // Part 2
         let next: Data = iterate_diag(&old);
-        count += 1 ;
+        count += 1;
         if old.eq(&next) {
             break num_matching(&next, '#');
         }
@@ -129,7 +129,7 @@ fn count_diag_matching(grid: &Data, x: usize, y: usize, target: char) -> usize {
             while grid.has_key(adj_x, adj_y) && grid.is(adj_x as usize, adj_y as usize, '.') {
                 adj_x += del_x;
                 adj_y += del_y;
-            };
+            }
 
             if grid.has_key(adj_x, adj_y) && grid.is(adj_x as usize, adj_y as usize, target) {
                 count += 1
