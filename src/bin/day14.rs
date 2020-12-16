@@ -82,7 +82,6 @@ fn all_perms(mask: &str, addr: u64) -> Vec<u64> {
     for n in permute(num_x) {
         let mut addr_vec: Vec<char> = addr_str.clone().chars().collect();
         for (i, (xi, _)) in texas.clone().enumerate() {
-            println!("{:?}\n{}\n", n, xi);
             addr_vec[xi] = n[i];
         }
         resp.push(u64::from_str_radix(addr_vec.into_iter().collect::<String>().as_str(), 2).unwrap())
