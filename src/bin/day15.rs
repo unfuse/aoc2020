@@ -1,5 +1,5 @@
-use std::fs;
 use std::collections::HashMap;
+use std::fs;
 
 fn main() {
     let input = fs::read_to_string("src/bin/input15.txt").unwrap();
@@ -8,7 +8,7 @@ fn main() {
     let mut spoken_map: HashMap<usize, usize> = HashMap::new();
     let mut value_map: HashMap<usize, Vec<usize>> = HashMap::new();
 
-    for preamb in input.trim_end().split(",") {
+    for preamb in input.trim_end().split(',') {
         let val: usize = preamb.parse::<usize>().unwrap();
         let pre_vec = value_map.entry(val).or_insert(Vec::new());
 
@@ -40,6 +40,6 @@ fn main() {
         counter += 1;
     }
 
-    println!("{:?}", spoken_map.get( &2020));
-    println!("{:?}", spoken_map.get( &30000000))
+    println!("{:?}", spoken_map.get(&2020));
+    println!("{:?}", spoken_map.get(&30000000))
 }
