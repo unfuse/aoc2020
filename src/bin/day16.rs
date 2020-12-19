@@ -1,7 +1,10 @@
 use regex::Regex;
 use std::fs;
+use std::collections::{HashMap, HashSet};
+use std::hash::Hash;
+use std::collections::hash_map::{RandomState, Entry};
 
-#[derive(Debug, PartialEq, PartialOrd, Clone)]
+#[derive(Debug, PartialEq, PartialOrd, Clone, Hash, Eq)]
 struct TicketRule {
     name: String,
     first_low: usize,
@@ -19,7 +22,7 @@ impl TicketRule {
 
 #[derive(Debug)]
 struct TicketRuleSet {
-    rules: Vec<TicketRule>,
+    rules: HashSet<TicketRule>,
 }
 
 impl TicketRuleSet {
@@ -35,7 +38,7 @@ impl TicketRuleSet {
 
 #[derive(Debug)]
 struct TicketSet {
-    tickets: Vec<Vec<usize>>,
+    tickets: HashSet<Vec<usize>>,
 }
 
 impl TicketSet {
@@ -46,6 +49,17 @@ impl TicketSet {
 
 fn main() {
     let input = fs::read_to_string("src/bin/input16.txt").unwrap();
+//     let input = String::from(r"class: 0-1 or 4-19
+// row: 0-5 or 8-19
+// seat: 0-13 or 16-19
+//
+// your ticket:
+// 11,12,13
+//
+// nearby tickets:
+// 3,9,18
+// 15,1,5
+// 5,14,9");
 
     let r = Regex::new("^(.+): (\\d+)-(\\d+) or (\\d+)-(\\d+)$+").unwrap();
 
@@ -65,7 +79,7 @@ fn main() {
                     sec_high: captures[5].parse().unwrap(),
                 })
             })
-            .collect::<Vec<TicketRule>>(),
+            .collect::<HashSet<TicketRule>>(),
     };
 
     let my_ticket: Vec<usize> = splits
@@ -113,7 +127,7 @@ fn main() {
             .collect(),
     };
 
-    let rule_order = find_rule_order(&valid_ticket_set, ticket_rule_set.rules, Vec::new()).unwrap();
+    let rule_order = find_rule_order(&valid_ticket_set, ticket_rule_set.rules, Vec::new(), &mut HashMap::new()).unwrap();
 
     println!("{:?}", rule_order);
 
@@ -135,32 +149,45 @@ fn main() {
 
 fn find_rule_order(
     ticket_set: &TicketSet,
-    remaining_rules: Vec<TicketRule>,
+    remaining_rules: HashSet<TicketRule>,
     current_ordering: Vec<TicketRule>,
+    memo: &mut HashMap<usize, HashSet<TicketRule>>,
 ) -> Option<Vec<TicketRule>> {
     // println!("{:?}\n{:?}", remaining_rules, current_ordering);
     if remaining_rules.is_empty() {
         return Some(current_ordering);
     }
 
+    // To pass onto next layer
     let mut rem_rule_clone = remaining_rules.clone();
-    while let Some(cur_rule) = rem_rule_clone.pop() {
+    let cur_idx = current_ordering.len();
+    for cur_rule in rem_rule_clone.drain() {
         // println!("  try next: {:?}", cur_rule);
-        let next_idx = current_ordering.len();
-        if ticket_set.all_comply_for(&cur_rule, next_idx) {
+
+        // Check memory for values at this index
+        match memo.entry(cur_idx) {
+            Entry::Occupied(mem) => {
+                // If mem contains the rule, we've already processed it as bad. Skip it
+                if mem.get().contains(&cur_rule) {
+                    continue;
+                }
+            }
+            Entry::Vacant(mem) => mem.insert(HashSet::new()),
+        }
+
+        // Derive validity of rule for current index
+        if ticket_set.all_comply_for(&cur_rule, cur_idx) {
             // println!("    success! recurse...");
-            let next_rem_rule: Vec<TicketRule> = remaining_rules
-                .iter()
-                .filter(|x| *x != &cur_rule)
-                .cloned()
-                .collect();
+            let next_rem_rule: HashSet<TicketRule> = remaining_rules.clone()
             let mut rule_order_attempt = current_ordering.clone();
             rule_order_attempt.push(cur_rule);
             if let Some(successful_order) =
-                find_rule_order(ticket_set, next_rem_rule, rule_order_attempt)
+                find_rule_order(ticket_set, next_rem_rule, rule_order_attempt, memo)
             {
                 return Some(successful_order);
             }
+        } else {
+            memo.get(&cur_idx).insert(cur_rule);
         }
     }
     None
