@@ -49,19 +49,19 @@ impl TicketSet {
 
 fn main() {
     let input = fs::read_to_string("src/bin/input16.txt").unwrap();
-//     let input = String::from(
-//         r"class: 0-1 or 4-19
-// row: 0-5 or 8-19
-// seat: 0-13 or 16-19
-//
-// your ticket:
-// 11,12,13
-//
-// nearby tickets:
-// 3,9,18
-// 15,1,5
-// 5,14,9",
-//     );
+    //     let input = String::from(
+    //         r"class: 0-1 or 4-19
+    // row: 0-5 or 8-19
+    // seat: 0-13 or 16-19
+    //
+    // your ticket:
+    // 11,12,13
+    //
+    // nearby tickets:
+    // 3,9,18
+    // 15,1,5
+    // 5,14,9",
+    //     );
 
     let r = Regex::new("^(.+): (\\d+)-(\\d+) or (\\d+)-(\\d+)$+").unwrap();
 
